@@ -432,7 +432,7 @@ class DocumentHostName(Parameter):
 class DocumentPath(Parameter):
     DOCUMENT_PATH_PARAM_KEY = "dp"
     DOCUMENT_PATH_MAX_LENGTH = 2048
-    DOCUMENT_PATH_VALID_PATTERN = re.compile(r"^//.*")
+    DOCUMENT_PATH_VALID_PATTERN = re.compile(r"^/.*")
 
     def __init__(self, value):
         super(DocumentPath, self).__init__(self.DOCUMENT_PATH_PARAM_KEY,
