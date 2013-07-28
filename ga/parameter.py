@@ -76,18 +76,13 @@ class Parameter(object):
 
     # Public methods
 
-    # def url_format(self):
-    #     unicode_key = unicode(self.key, "utf-8")
-    #     url_formatted_key = urllib.quote(unicode_key)
-    #
-    #     # convert Boolean values to 0, 1
-    #     value = int(self.value) if self.value_type == self.VALUE_TYPE_BOOLEAN else self.value
-    #     unicode_value = unicode(value, "utf-8")
-    #     url_formatted_value = urllib.quote(unicode_value, "")
-    #     return "%s=%s" % (url_formatted_key, url_formatted_value)
+    def url_format(self):
+        url_formatted_key = urllib.quote(self.key, "")
+        url_formatted_value = urllib.quote(str(self.value), "")
+        return "%s=%s" % (url_formatted_key, url_formatted_value)
 
     def validate_key(self):
-        if not self.valid_key_pattern and not self.valid_key_pattern.match(self.key):
+        if self.valid_key_pattern and not self.valid_key_pattern.match(self.key):
             raise ValidateException("%s's key has invalid format" % self.__class__.__name__)
 
     def validate_value(self):
@@ -299,7 +294,7 @@ class GoogleDisplayAdsID(Parameter):
         super(GoogleDisplayAdsID, self).__init__(self.GOOGLE_DISPLAY_ADS_ID_PARAM_KEY,
                                                  value,
                                                  self.VALUE_TYPE_TEXT)
-        
+
 
 ###############################################################################
 # SYSTEM INFO
