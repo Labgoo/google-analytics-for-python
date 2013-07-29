@@ -1,7 +1,7 @@
 __author__ = 'minhtule'
 
 from ga.parameter import *
-from labgoo.lb_logging import lb_logger
+from ga.utility import ga_logger
 
 
 class HTTPRequest(object):
@@ -24,8 +24,8 @@ class HTTPRequest(object):
         data_payload = self.__build_data_payload()
         result = urllib.urlopen(self.HOST, data_payload)
 
-        lb_logger.debug(data_payload)
-        lb_logger.debug(result.code)
+        ga_logger.debug(data_payload)
+        ga_logger.debug(result.code)
 
         if result.code == 200:
             return True
