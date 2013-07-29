@@ -1,7 +1,8 @@
 __author__ = 'minhtule'
 
-from ga.parameter import *
-from ga.utility import ga_logger
+from parameter import *
+from utility import ga_logger
+import urllib2
 
 
 class HTTPRequest(object):
@@ -9,20 +10,31 @@ class HTTPRequest(object):
 
     """
 
-    HOST = "http://www.google-analytics.com/collect"
+    GOOGLE_ANALYTICS_HOST = "http://www.google-analytics.com/collect"
 
     def __init__(self, tracker, hit_type, other_parameters):
         self.__tracker = tracker
         self.__params = []
         self.__params.append(ProtocolVersion())  # Protocol Version
-        self.__params.append(tracker.tracking_id)  # Tracking ID
-        self.__params.append(tracker.client_id)  # Client ID
-        self.__params.append(hit_type)  # Hit type
+        self.__params.append(TrackingID(tracker.tracking_id))  # Tracking ID
+        self.__params.append(AnonymizeIP())
+        self.__params.append(ClientID(tracker.client_id))  # Client ID
+        self.__params.append(HitType(hit_type))  # Hit type
         self.__params.extend(other_parameters)
 
     def send(self):
+        request = urllib2.Request(self.GOOGLE_ANALYTICS_HOST,
+                                  origin_req_host=self.__tracker.original_request_ip)
+        request.add_header("Accept-Language", self.__tracker.original_request_accept_language)
+        request.add_header("User-Agent", self.__tracker.original_request_user_agent)
+        # request = urllib2.Request(self.GOOGLE_ANALYTICS_HOST,
+        #                           origin_req_host="183.91.23.111")
+        # request.add_header("Accept-Language", "cn")
+
         data_payload = self.__build_data_payload()
-        result = urllib.urlopen(self.HOST, data_payload)
+        request.add_data(data_payload)
+
+        result = urllib2.urlopen(request)
 
         ga_logger.debug(data_payload)
         ga_logger.debug(result.code)
@@ -36,7 +48,7 @@ class HTTPRequest(object):
 
 
 class PageTrackingRequest(HTTPRequest):
-    PAGE_TRACKING_HIT_TYPE = HitType("pageview")
+    PAGE_TRACKING_HIT_TYPE = "pageview"
 
     def __init__(self, tracker, document_hostname=None, document_path=None, document_title=None):
         other_params = []
@@ -47,7 +59,7 @@ class PageTrackingRequest(HTTPRequest):
 
 
 class EventTrackingRequest(HTTPRequest):
-    EVENT_TRACKING_HIT_TYPE = HitType("event")
+    EVENT_TRACKING_HIT_TYPE = "event"
 
     def __init__(self, tracker, category, action, label=None, value=None):
         other_params = []
@@ -59,7 +71,7 @@ class EventTrackingRequest(HTTPRequest):
 
 
 def createAndAppendParameter(parameters, parameter_creator_func, value, is_required=False):
-        if is_required or value is not None:
-            param = parameter_creator_func(value)
-            parameters.append(param)
+    if is_required or value is not None:
+        param = parameter_creator_func(value)
+        parameters.append(param)
 

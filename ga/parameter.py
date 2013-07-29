@@ -1,7 +1,8 @@
 __author__ = 'minhtule'
 
-from ga.exception import ValidateException
-from ga.utility import *
+from exception import ValidateException
+from utility import *
+import types
 import re
 import urllib
 import random
@@ -98,7 +99,7 @@ class Parameter(object):
             raise ValidateException("%s has invalid value" % self.__class__.__name__)
 
     def validate_text(self):
-        return isinstance(self.value, str) and not is_empty_string(self.value)
+        return isinstance(self.value, types.StringTypes) and not is_empty_string(self.value)
 
     def validate_integer(self):
         return isinstance(self.value, int)
@@ -140,7 +141,7 @@ class TrackingID(Parameter):
 class AnonymizeIP(Parameter):
     ANONYMIZE_IP_PARAM_KEY = "aip"
 
-    def __init__(self, value):
+    def __init__(self, value=True):
         super(AnonymizeIP, self).__init__(self.ANONYMIZE_IP_PARAM_KEY,
                                           value,
                                           self.VALUE_TYPE_BOOLEAN)
