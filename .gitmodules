@@ -1,0 +1,3 @@
+[submodule "user_agents"]
+	path = user_agents
+	url = https://github.com/selwin/python-user-agents.git
