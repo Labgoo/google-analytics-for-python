@@ -46,7 +46,7 @@ class TestParameter(TestCase):
             TrackingID("UA-42620910-1a")
 
     def test_anonymize_ip(self):
-        self.assertTrue(AnonymizeIP(True))
+        self.assertTrue(AnonymizeIP())
 
         with self.assertRaises(ValidateException):
             AnonymizeIP(1)

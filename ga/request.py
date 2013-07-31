@@ -17,19 +17,16 @@ class HTTPRequest(object):
         self.__params = []
         self.__params.append(ProtocolVersion())  # Protocol Version
         self.__params.append(TrackingID(tracker.tracking_id))  # Tracking ID
-        self.__params.append(AnonymizeIP())
         self.__params.append(ClientID(tracker.client_id))  # Client ID
         self.__params.append(HitType(hit_type))  # Hit type
+        self.__params.append(CacheBuster())  # Cache Buster, random number to clear cache
+        createAndAppendParameter(self.__params, UserLanguage, tracker.original_request_language)
         self.__params.extend(other_parameters)
 
     def send(self):
         request = urllib2.Request(self.GOOGLE_ANALYTICS_HOST,
                                   origin_req_host=self.__tracker.original_request_ip)
-        request.add_header("Accept-Language", self.__tracker.original_request_accept_language)
         request.add_header("User-Agent", self.__tracker.original_request_user_agent)
-        # request = urllib2.Request(self.GOOGLE_ANALYTICS_HOST,
-        #                           origin_req_host="183.91.23.111")
-        # request.add_header("Accept-Language", "cn")
 
         data_payload = self.__build_data_payload()
         request.add_data(data_payload)

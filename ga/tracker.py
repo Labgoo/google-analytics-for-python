@@ -42,8 +42,8 @@ class Tracker(object):
         return self.visitor.user_agent
 
     @property
-    def original_request_accept_language(self):
-        return self.visitor.accept_language
+    def original_request_language(self):
+        return self.visitor.language
 
     # Public method
     def sendPage(self, hostname=None, path=None, title=None):

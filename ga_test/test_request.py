@@ -6,6 +6,7 @@ from ga.tracker import *
 from ga.visitor import *
 
 TRACKING_ID = "UA-42620910-9"
+# VISITOR = "555"
 VISITOR = Visitor()
 TRACKER = Tracker(TRACKING_ID, VISITOR)
 
