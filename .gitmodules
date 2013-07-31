@@ -1,3 +1,0 @@
-[submodule "python_user_agents"]
-	path = third_party/sources/python_user_agents
-	url = https://github.com/selwin/python-user-agents.git
