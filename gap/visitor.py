@@ -39,7 +39,6 @@ class Visitor(object):
             self.language = None
             self.user_agent = None
             self.ip_address = None
-            self.tracking_cookie = None
 
     def __get_id(self):
         cookies = self.request.cookies
