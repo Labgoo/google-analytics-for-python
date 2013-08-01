@@ -3,7 +3,7 @@
 __author__ = 'minhtule'
 
 from unittest import TestCase
-from ga.parameter import *
+from gap.parameter import *
 
 
 class TestParameter(TestCase):

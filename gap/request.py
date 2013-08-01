@@ -1,7 +1,7 @@
 __author__ = 'minhtule'
 
 from parameter import *
-from utility import ga_logger
+from utility import gap_logger
 import urllib2
 
 
@@ -33,8 +33,8 @@ class HTTPRequest(object):
 
         result = urllib2.urlopen(request)
 
-        ga_logger.debug(data_payload)
-        ga_logger.debug(result.code)
+        gap_logger.debug(data_payload)
+        gap_logger.debug(result.code)
 
         if result.code == 200:
             return True

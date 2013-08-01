@@ -16,7 +16,7 @@ def init_ga_logger():
     logger.addHandler(handler)
     return logger
 
-ga_logger = init_ga_logger()
+gap_logger = init_ga_logger()
 
 
 def is_empty_string(text):

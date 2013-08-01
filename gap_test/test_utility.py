@@ -1,7 +1,7 @@
 __author__ = 'minhtule'
 
 from unittest import TestCase
-from ga.utility import *
+from gap.utility import *
 
 
 class TestUtility(TestCase):

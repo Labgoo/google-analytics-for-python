@@ -1,9 +1,9 @@
 __author__ = 'minhtule'
 
 from unittest import TestCase
-from ga.request import *
-from ga.tracker import *
-from ga.visitor import *
+from gap.request import *
+from gap.tracker import *
+from gap.visitor import *
 
 TRACKING_ID = "UA-42620910-9"
 # VISITOR = "555"
