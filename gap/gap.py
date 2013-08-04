@@ -13,6 +13,7 @@ class GAP(object):
         if isinstance(request_handler, webapp2.RequestHandler):
             self.__request_handler = request_handler
             self.__visitor = Visitor(request_handler.request)
+            self.__set_cookie_in_response()
         else:
             self.__request_handler = None
             self.__visitor = None
