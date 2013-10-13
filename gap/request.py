@@ -23,6 +23,12 @@ class HTTPRequest(object):
         createAndAppendParameter(self.__params, UserLanguage, tracker.original_request_language)
         self.__params.extend(other_parameters)
 
+    def add_custom_dimension(self, index, value):
+        self.__params.append(CustomDimension(CustomDimension.key_for_index(index), value))
+
+    def add_custom_metric(self, index, value):
+        self.__params.append(CustomMetric(CustomMetric.key_for_index(index), value))
+
     def send(self):
         request = urllib2.Request(self.GOOGLE_ANALYTICS_HOST,
                                   origin_req_host=self.__tracker.original_request_ip)
@@ -64,11 +70,25 @@ class EventTrackingRequest(HTTPRequest):
         createAndAppendParameter(other_params, EventAction, action, is_required=True)
         createAndAppendParameter(other_params, EventLabel, label, is_required=False)
         createAndAppendParameter(other_params, EventValue, value, is_required=False)
+
         super(EventTrackingRequest, self).__init__(tracker, self.EVENT_TRACKING_HIT_TYPE, other_params)
+
+
+class CustomVariable(object):
+    @property
+    def index(self):
+        return self.__index
+
+    @property
+    def value(self):
+        return self.__value
+
+    def __init__(self, index, value):
+        self.__index = index
+        self.__value = value
 
 
 def createAndAppendParameter(parameters, parameter_creator_func, value, is_required=False):
     if is_required or value is not None:
         param = parameter_creator_func(value)
         parameters.append(param)
-

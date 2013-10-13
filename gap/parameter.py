@@ -305,7 +305,7 @@ class GoogleDisplayAdsID(Parameter):
 class ScreenResolution(Parameter):
     SCREEN_RESOLUTION_PARAM_KEY = "sr"
     SCREEN_RESOLUTION_MAX_LENGTH = 20
-    
+
     def __init__(self, value):
         super(ScreenResolution, self).__init__(self.SCREEN_RESOLUTION_PARAM_KEY,
                                                value,
@@ -647,15 +647,15 @@ class ItemCategory(Parameter):
 class CurrencyCode(Parameter):
     CURRENCY_CODE_PARAM_KEY = "cu"
     CURRENCY_CODE_MAX_LENGTH = 10
-    
+
     # TODO check that the value conforms to ISO 4217 currency code
     def __init__(self, value):
         super(CurrencyCode, self).__init__(self.CURRENCY_CODE_PARAM_KEY,
                                            value,
                                            self.VALUE_TYPE_TEXT,
                                            max_length=self.CURRENCY_CODE_MAX_LENGTH)
-        
-        
+
+
 ###############################################################################
 # SOCIAL INTERACTIONS
 ###############################################################################
@@ -664,7 +664,7 @@ class CurrencyCode(Parameter):
 class SocialNetwork(Parameter):
     SOCIAL_NETWORK_PARAM_KEY = "sn"
     SOCIAL_NETWORK_MAX_LENGTH = 50
-    
+
     def __init__(self, value):
         super(SocialNetwork, self).__init__(self.SOCIAL_NETWORK_PARAM_KEY,
                                             value,
@@ -675,7 +675,7 @@ class SocialNetwork(Parameter):
 class SocialAction(Parameter):
     SOCIAL_ACTION_PARAM_KEY = "sa"
     SOCIAL_ACTION_MAX_LENGTH = 50
-    
+
     def __init__(self, value):
         super(SocialAction, self).__init__(self.SOCIAL_ACTION_PARAM_KEY,
                                            value,
@@ -686,7 +686,7 @@ class SocialAction(Parameter):
 class SocialActionTarget(Parameter):
     SOCIAL_ACTION_TARGET_PARAM_KEY = "st"
     SOCIAL_ACTION_TARGET_MAX_LENGTH = 2048
-    
+
     def __init__(self, value):
         super(SocialActionTarget, self).__init__(self.SOCIAL_ACTION_TARGET_PARAM_KEY,
                                                  value,
@@ -702,66 +702,66 @@ class SocialActionTarget(Parameter):
 class UserTimingCategory(Parameter):
     USER_TIMING_CATEGORY_PARAM_KEY = "utc"
     USER_TIMING_CATEGORY_MAX_LENGTH = 150
-    
+
     def __init__(self, value):
         super(UserTimingCategory, self).__init__(self.USER_TIMING_CATEGORY_PARAM_KEY,
                                                  value,
                                                  self.VALUE_TYPE_TEXT,
                                                  max_length=self.USER_TIMING_CATEGORY_MAX_LENGTH)
-        
+
 
 class UserTimingVariableName(Parameter):
     USER_TIMING_VARIABLE_NAME_PARAM_KEY = "utv"
     USER_TIMING_VARIABLE_NAME_MAX_LENGTH = 500
-    
+
     def __init__(self, value):
         super(UserTimingVariableName, self).__init__(self.USER_TIMING_VARIABLE_NAME_PARAM_KEY,
                                                      value,
                                                      self.VALUE_TYPE_TEXT,
                                                      max_length=self.USER_TIMING_VARIABLE_NAME_MAX_LENGTH)
-        
+
 
 class UserTimingTime(Parameter):
     USER_TIMING_TIME_PARAM_KEY = "utt"
-    
+
     def __init__(self, value):
         super(UserTimingTime, self).__init__(self.USER_TIMING_TIME_PARAM_KEY,
                                              value,
                                              self.VALUE_TYPE_INTEGER)
-        
+
 
 class UserTimingLabel(Parameter):
     USER_TIMING_LABEL_PARAM_KEY = "utl"
     USER_TIMING_LABEL_MAX_LENGTH = 500
-    
+
     def __init__(self, value):
         super(UserTimingLabel, self).__init__(self.USER_TIMING_LABEL_PARAM_KEY,
                                               value,
                                               self.VALUE_TYPE_TEXT,
                                               max_length=self.USER_TIMING_LABEL_MAX_LENGTH)
-        
+
 
 class UserPageLoadTime(Parameter):
     USER_PAGE_LOAD_TIME_PARAM_KEY = "plt"
-    
+
     def __init__(self, value):
         super(UserPageLoadTime, self).__init__(self.USER_PAGE_LOAD_TIME_PARAM_KEY,
                                                value,
                                                self.VALUE_TYPE_INTEGER)
-        
+
 
 class UserDNSTime(Parameter):
     USER_DNS_TIME_PARAM_KEY = "dns"
-    
+
     def __init__(self, value):
         super(UserDNSTime, self).__init__(self.USER_DNS_TIME_PARAM_KEY,
                                           value,
                                           self.VALUE_TYPE_INTEGER)
-        
+
 
 class PageDownloadTime(Parameter):
     PAGE_DOWNLOAD_TIME_PARAM_KEY = "pdt"
-    
+
     def __init__(self, value):
         super(PageDownloadTime, self).__init__(self.PAGE_DOWNLOAD_TIME_PARAM_KEY,
                                                value,
@@ -770,7 +770,7 @@ class PageDownloadTime(Parameter):
 
 class RedirectResponseTime(Parameter):
     REDIRECT_RESPONSE_TIME_PARAM_KEY = "rrt"
-    
+
     def __init__(self, value):
         super(RedirectResponseTime, self).__init__(self.REDIRECT_RESPONSE_TIME_PARAM_KEY,
                                                    value,
@@ -836,6 +836,10 @@ class CustomDimension(Parameter):
                                               max_length=self.CUSTOM_DIMENSION_MAX_LENGTH,
                                               valid_key_pattern=self.CUSTOM_DIMENSION_VALID_KEY_PATTERN)
 
+    @staticmethod
+    def key_for_index(index):
+        return "cd%d" % index
+
 
 class CustomMetric(Parameter):
     CUSTOM_METRIC_VALID_KEY_PATTERN = re.compile(r"^cm[1-9][0-9]*$")
@@ -845,3 +849,7 @@ class CustomMetric(Parameter):
                                            value,
                                            self.VALUE_TYPE_INTEGER,
                                            valid_key_pattern=self.CUSTOM_METRIC_VALID_KEY_PATTERN)
+
+    @staticmethod
+    def key_for_index(index):
+        return "cm%d" % index

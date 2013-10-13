@@ -1,6 +1,5 @@
 __author__ = 'minhtule'
 
-
 from request import *
 
 
@@ -8,6 +7,7 @@ class Tracker(object):
     """
 
     """
+
     def __init__(self, tracking_id, visitor):
         self.__tracking_id = tracking_id
         self.__visitor = visitor
@@ -55,6 +55,16 @@ class Tracker(object):
         request = PageTrackingRequest(self, hostname, path, title)
         request.send()
 
-    def sendEvent(self, category, action, label=None, value=None):
+    def sendEvent(self, category, action, label=None, value=None, custom_dimensions=None, custom_metrics=None):
+        custom_dimensions = custom_dimensions or []
+        custom_metrics = custom_metrics or []
+
         request = EventTrackingRequest(self, category, action, label, value)
+
+        for custom_dimension in custom_dimensions:
+            request.add_custom_dimension(custom_dimension.index, custom_dimension.value)
+
+        for custom_metric in custom_metrics:
+            request.add_custom_metric(custom_metric.index, custom_metric.value)
+
         request.send()
