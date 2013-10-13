@@ -68,3 +68,17 @@ class Tracker(object):
             request.add_custom_metric(custom_metric.index, custom_metric.value)
 
         request.send()
+
+
+class CustomVariable(object):
+    @property
+    def index(self):
+        return self.__index
+
+    @property
+    def value(self):
+        return self.__value
+
+    def __init__(self, index, value):
+        self.__index = index
+        self.__value = value

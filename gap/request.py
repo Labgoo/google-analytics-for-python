@@ -74,20 +74,6 @@ class EventTrackingRequest(HTTPRequest):
         super(EventTrackingRequest, self).__init__(tracker, self.EVENT_TRACKING_HIT_TYPE, other_params)
 
 
-class CustomVariable(object):
-    @property
-    def index(self):
-        return self.__index
-
-    @property
-    def value(self):
-        return self.__value
-
-    def __init__(self, index, value):
-        self.__index = index
-        self.__value = value
-
-
 def createAndAppendParameter(parameters, parameter_creator_func, value, is_required=False):
     if is_required or value is not None:
         param = parameter_creator_func(value)
