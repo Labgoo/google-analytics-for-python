@@ -46,7 +46,7 @@ class Tracker(object):
         return self.visitor.language
 
     # Public method
-    def sendPage(self, hostname=None, path=None, title=None):
+    def send_page(self, hostname=None, path=None, title=None):
         if hostname is None:
             hostname = self.visitor.document_host
         if path is None:
@@ -55,7 +55,7 @@ class Tracker(object):
         request = PageTrackingRequest(self, hostname, path, title)
         request.send()
 
-    def sendEvent(self, category, action, label=None, value=None, custom_dimensions=None, custom_metrics=None):
+    def send_event(self, category, action, label=None, value=None, custom_dimensions=None, custom_metrics=None):
         custom_dimensions = custom_dimensions or []
         custom_metrics = custom_metrics or []
 

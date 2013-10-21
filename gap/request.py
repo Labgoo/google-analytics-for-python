@@ -21,7 +21,7 @@ class HTTPRequest(object):
         self.__params.append(ClientID(tracker.client_id))  # Client ID
         self.__params.append(HitType(hit_type))  # Hit type
         self.__params.append(CacheBuster())  # Cache Buster, random number to clear cache
-        createAndAppendParameter(self.__params, UserLanguage, tracker.original_request_language)
+        append_parameter(self.__params, UserLanguage, tracker.original_request_language)
         self.__params.extend(other_parameters)
 
     def add_custom_dimension(self, index, value):
@@ -57,9 +57,9 @@ class PageTrackingRequest(HTTPRequest):
 
     def __init__(self, tracker, document_hostname=None, document_path=None, document_title=None):
         other_params = []
-        createAndAppendParameter(other_params, DocumentHostName, document_hostname, is_required=False)
-        createAndAppendParameter(other_params, DocumentPath, document_path, is_required=False)
-        createAndAppendParameter(other_params, DocumentTitle, document_title, is_required=False)
+        append_parameter(other_params, DocumentHostName, document_hostname, is_required=False)
+        append_parameter(other_params, DocumentPath, document_path, is_required=False)
+        append_parameter(other_params, DocumentTitle, document_title, is_required=False)
         super(PageTrackingRequest, self).__init__(tracker, self.PAGE_TRACKING_HIT_TYPE, other_params)
 
 
@@ -68,15 +68,15 @@ class EventTrackingRequest(HTTPRequest):
 
     def __init__(self, tracker, category, action, label=None, value=None):
         other_params = []
-        createAndAppendParameter(other_params, EventCategory, category, is_required=True)
-        createAndAppendParameter(other_params, EventAction, action, is_required=True)
-        createAndAppendParameter(other_params, EventLabel, label, is_required=False)
-        createAndAppendParameter(other_params, EventValue, value, is_required=False)
+        append_parameter(other_params, EventCategory, category, is_required=True)
+        append_parameter(other_params, EventAction, action, is_required=True)
+        append_parameter(other_params, EventLabel, label, is_required=False)
+        append_parameter(other_params, EventValue, value, is_required=False)
 
         super(EventTrackingRequest, self).__init__(tracker, self.EVENT_TRACKING_HIT_TYPE, other_params)
 
 
-def createAndAppendParameter(parameters, parameter_creator_func, value, is_required=False):
+def append_parameter(parameters, parameter_creator_func, value, is_required=False):
     if is_required or value is not None:
         param = parameter_creator_func(value)
         parameters.append(param)
