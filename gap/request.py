@@ -1,8 +1,9 @@
 __author__ = 'minhtule'
 
 from parameter import *
-from utility import gap_logger
 import urllib2
+import logging
+import utility
 
 
 class HTTPRequest(object):
@@ -39,12 +40,13 @@ class HTTPRequest(object):
 
         result = urllib2.urlopen(request)
 
-        gap_logger.debug(data_payload)
-        gap_logger.debug(result.code)
+        logging.debug(LOGGING_PREFIX + data_payload)
 
         if result.code == 200:
             return True
-        return False
+        else:
+            logging.error(LOGGING_PREFIX + "Request to GA server failed with code " + result.code)
+            return False
 
     def __build_data_payload(self):
         return "&".join([param.url_format() for param in self.__params])
