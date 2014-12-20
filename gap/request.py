@@ -6,6 +6,12 @@ import logging
 import utility
 
 
+def append_parameter(parameters, parameter_creator_func, value, is_required=False):
+    if is_required or value is not None:
+        param = parameter_creator_func(value)
+        parameters.append(param)
+
+
 class HTTPRequest(object):
     """
 
@@ -76,7 +82,34 @@ class EventTrackingRequest(HTTPRequest):
         super(EventTrackingRequest, self).__init__(tracker, self.EVENT_TRACKING_HIT_TYPE, other_params)
 
 
-def append_parameter(parameters, parameter_creator_func, value, is_required=False):
-    if is_required or value is not None:
-        param = parameter_creator_func(value)
-        parameters.append(param)
+class TransactionTrackingRequest(HTTPRequest):
+    TRANSACTION_TRACKING_HIT_TYPE = 'transaction'
+
+    def __init__(self, tracker, transaction_id, transaction_affiliation=None, transaction_revenue=None, transaction_shipping=None, transaction_tax=None, currency_code=None):
+        other_params = []
+
+        append_parameter(other_params, TransactionID, transaction_id, is_required=True)
+        append_parameter(other_params, TransactionAffiliation, transaction_affiliation, is_required=False)
+        append_parameter(other_params, TransactionRevenue, transaction_revenue, is_required=False)
+        append_parameter(other_params, TransactionShipping, transaction_shipping, is_required=False)
+        append_parameter(other_params, TransactionTax, transaction_tax, is_required=False)
+        append_parameter(other_params, CurrencyCode, currency_code, is_required=False)
+
+        super(TransactionTrackingRequest, self).__init__(tracker, self.TRANSACTION_TRACKING_HIT_TYPE, other_params)
+
+
+class ItemTrackingRequest(HTTPRequest):
+    ITEM_TRACKING_HIT_TYPE = 'item'
+
+    def __init__(self, tracker, transaction_id, item_name, item_price=None, item_quantity=None, item_code=None, item_category=None, currency_code=None):
+        other_params = []
+
+        append_parameter(other_params, TransactionID, transaction_id, is_required=True)
+        append_parameter(other_params, ItemName, item_name, is_required=True)
+        append_parameter(other_params, ItemPrice, item_price, is_required=False)
+        append_parameter(other_params, ItemQuantity, item_quantity, is_required=False)
+        append_parameter(other_params, ItemCode, item_code, is_required=False)
+        append_parameter(other_params, ItemCategory, item_category, is_required=False)
+        append_parameter(other_params, CurrencyCode, currency_code, is_required=False)
+
+        super(ItemTrackingRequest, self).__init__(tracker, self.ITEM_TRACKING_HIT_TYPE, other_params)
