@@ -47,27 +47,35 @@ class Tracker(object):
 
     # Public method
     def send_page(self, hostname=None, path=None, title=None):
-        if hostname is None:
-            hostname = self.visitor.document_host
-        if path is None:
-            path = self.visitor.document_path
+        PageTrackingRequest(
+            self,
+            document_hostname=hostname if hostname else self.visitor.document_host,
+            document_path=path if path else self.visitor.document_path,
+            document_title=title
+        ).send()
 
-        request = PageTrackingRequest(self, hostname, path, title)
-        request.send()
+    def send_transaction(self, transaction_id, transaction_affiliation=None, transaction_revenue=None, transaction_shipping=None, transaction_tax=None, currency_code=None):
+        TransactionTrackingRequest(
+            self,
+            transaction_id,
+            transaction_affiliation=transaction_affiliation,
+            transaction_revenue=transaction_revenue,
+            transaction_shipping=transaction_shipping,
+            transaction_tax=transaction_tax,
+            currency_code=currency_code
+        ).send()
 
-    def send_event(self, category, action, label=None, value=None, custom_dimensions=None, custom_metrics=None):
-        custom_dimensions = custom_dimensions or []
-        custom_metrics = custom_metrics or []
-
-        request = EventTrackingRequest(self, category, action, label, value)
-
-        for custom_dimension in custom_dimensions:
-            request.add_custom_dimension(custom_dimension.index, custom_dimension.value)
-
-        for custom_metric in custom_metrics:
-            request.add_custom_metric(custom_metric.index, custom_metric.value)
-
-        request.send()
+    def send_item(self, transaction_id, item_name, item_price=None, item_quantity=None, item_code=None, item_category=None, currency_code=None):
+        ItemTrackingRequest(
+            self,
+            transaction_id,
+            item_name,
+            item_price=item_price,
+            item_quantity=item_quantity,
+            item_code=item_code,
+            item_category=item_category,
+            currency_code=currency_code
+        ).send()
 
 
 class CustomVariable(object):
