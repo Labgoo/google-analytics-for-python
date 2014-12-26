@@ -50,7 +50,7 @@ class Tracker(object):
         PageTrackingRequest(
             self,
             document_hostname=hostname if hostname else self.visitor.document_host,
-            document_path=path if path else self.visitor.document_path.document_host,
+            document_path=path if path else self.visitor.document_path,
             document_title=title
         ).send()
 
